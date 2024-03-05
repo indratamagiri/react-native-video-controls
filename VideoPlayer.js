@@ -100,6 +100,7 @@ export default class VideoPlayer extends Component {
       onLoad: this._onLoad.bind(this),
       onPause: this.props.onPause,
       onPlay: this.props.onPlay,
+      onReload: this.props.onReload || this._onReload.bind(this),
     };
 
     /**
@@ -161,7 +162,7 @@ export default class VideoPlayer extends Component {
     };
   }
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps) => {
     const {isFullscreen} = this.props;
 
     if (prevProps.isFullscreen !== isFullscreen) {
@@ -952,6 +953,9 @@ export default class VideoPlayer extends Component {
     const backControl = this.props.disableBack
       ? this.renderNullControl()
       : this.renderBack();
+    const reloadControl = this.props.disableReload
+      ? this.renderNullControl()
+      : this.renderReload();
     const volumeControl = this.props.disableVolume
       ? this.renderNullControl()
       : this.renderVolume();
@@ -995,6 +999,17 @@ export default class VideoPlayer extends Component {
       />,
       this.events.onBack,
       styles.controls.back,
+    );
+  }
+
+  renderReload() {
+    return this.renderControl(
+      <Image
+        source={require('./assets/img/reload.png')}
+        style={styles.controls.reload}
+      />,
+      this.events.onReload,
+      styles.controls.reload,
     );
   }
 
@@ -1087,7 +1102,7 @@ export default class VideoPlayer extends Component {
         {...this.player.seekPanResponder.panHandlers}>
         <View
           style={styles.seekbar.track}
-          onLayout={event =>
+          onLayout={(event) =>
             (this.player.seekerWidth = event.nativeEvent.layout.width)
           }
           pointerEvents={'none'}>
@@ -1217,7 +1232,7 @@ export default class VideoPlayer extends Component {
         <View style={[styles.player.container, this.styles.containerStyle]}>
           <Video
             {...this.props}
-            ref={videoPlayer => (this.player.ref = videoPlayer)}
+            ref={(videoPlayer) => (this.player.ref = videoPlayer)}
             resizeMode={this.state.resizeMode}
             volume={this.state.volume}
             paused={this.state.paused}
@@ -1231,6 +1246,7 @@ export default class VideoPlayer extends Component {
             onSeek={this.events.onSeek}
             style={[styles.player.video, this.styles.videoStyle]}
             source={this.props.source}
+            onReload={this.props.onReload}
           />
           {this.renderError()}
           {this.renderLoader()}

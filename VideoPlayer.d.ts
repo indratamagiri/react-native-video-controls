@@ -47,6 +47,9 @@ interface VideoPlayerProperties extends VideoProperties {
   onBack?: () => void;
   /** Fired when the video is complete */
   onEnd?: () => void;
+
+  onReload?: () => void;
+
   /** Hide the fullscreen button */
   disableFullscreen?: boolean;
   /** Hide the play/pause toggle */
@@ -59,6 +62,8 @@ interface VideoPlayerProperties extends VideoProperties {
   disableTimer?: boolean;
   /** Hide the back button */
   disableBack?: boolean;
+
+  disableReload?: boolean;
 }
 
 export default class VideoPlayer extends Component<VideoPlayerProperties> {
