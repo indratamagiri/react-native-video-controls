@@ -274,6 +274,8 @@ export default class VideoPlayer extends Component {
    */
   _onEnd() {}
 
+  _onReload() {}
+
   /**
    * Set the error state to true which then
    * changes our renderError function
@@ -950,12 +952,12 @@ export default class VideoPlayer extends Component {
    * view and spaces them out.
    */
   renderTopControls() {
-    const backControl = this.props.disableBack
-      ? this.renderNullControl()
-      : this.renderBack();
-    const reloadControl = this.props.disableReload
-      ? this.renderNullControl()
-      : this.renderReload();
+    const backControl = this.props.disableBack ? <></> : this.renderBack();
+    const reloadControl = this.props.disableReload ? (
+      <></>
+    ) : (
+      this.renderReload()
+    );
     const volumeControl = this.props.disableVolume
       ? this.renderNullControl()
       : this.renderVolume();
@@ -977,7 +979,10 @@ export default class VideoPlayer extends Component {
           style={[styles.controls.column]}
           imageStyle={[styles.controls.vignette]}>
           <SafeAreaView style={styles.controls.topControlGroup}>
-            {backControl}
+            <View style={styles.controls.pullLeft}>
+              {backControl}
+              {reloadControl}
+            </View>
             <View style={styles.controls.pullRight}>
               {volumeControl}
               {fullscreenControl}
@@ -1338,6 +1343,11 @@ const styles = {
       fontSize: 14,
       textAlign: 'center',
     },
+    pullLeft: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     pullRight: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -1398,6 +1408,12 @@ const styles = {
       color: '#FFF',
       fontSize: 11,
       textAlign: 'right',
+    },
+    reload: {
+      width: 32,
+      height: 32,
+      alignSelf: 'center',
+      padding: 0,
     },
   }),
   volume: StyleSheet.create({
