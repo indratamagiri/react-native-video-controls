@@ -1,12 +1,12 @@
 import {Component} from 'react';
 import {StyleProp, ViewStyle} from 'react-native';
-import Video, {LoadError, VideoProperties} from 'react-native-video';
+import Video, {LoadError, ReactVideoProps} from 'react-native-video';
 
 interface DuckNavigator {
   pop: () => void;
 }
 
-interface VideoPlayerProperties extends VideoProperties {
+interface VideoPlayerProperties extends ReactVideoProps {
   /** If true, clicking the fullscreen button will toggle the <Video /> component between cover/contain, set to false if you want to customize fullscreen behaviour */
   toggleResizeModeOnFullscreen?: boolean;
   /** The amountof time (in milliseconds) to animate the controls in and out. */
